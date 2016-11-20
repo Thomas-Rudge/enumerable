@@ -20,7 +20,7 @@ module Enumerable
 
     return result
   end
-  
+
   def my_count(*args)
     count = 0
     args = args.empty? ? nil : args[0]
@@ -37,7 +37,7 @@ module Enumerable
 
     return count
   end
-  
+
   def my_each
     for item in self do
       yield item
@@ -49,14 +49,12 @@ module Enumerable
       yield self.index(item), item
     end
   end
-  
-  def my_inject(*args)
-    (args.empty? && !block_given?) ? (return "Error, called without argument or block") : nil
 
+  def my_inject(*args)
     memo = (!args.empty? && (args[0].is_a? Integer)) ? args[0] : nil
     operator = (!args.empty? && (args[-1].is_a? Symbol)) ? args[-1] : nil
     enum = self
-    
+
     if !memo
       memo = enum.first
       enum = enum.drop(1).to_enum
@@ -74,14 +72,20 @@ module Enumerable
     return memo
 
   end
-  
-  def my_map
-    !block_given? ? (return self.to_enum) : nil
+
+  # Unlike the standard map, this ones can also take a proc or lambda as an argument.
+  # If a proc or lambda is given, any block given will be ignored.
+  def my_map(*args)
+    (!block_given? && args.empty?) ? (return self.to_enum) : nil
 
     result = Array.new
 
     for item in self do
-      result << (yield item)
+      if !args.empty? && (args[0].is_a? Proc)
+        result << args[0].call(item)
+      else
+        result << (yield item)
+      end
     end
 
     return result
