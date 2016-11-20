@@ -77,7 +77,27 @@ module Enumerable
     return result
   end
   
-  def my_inject(*args)    
+  def my_inject(*args)
+    (args.empty? && !block_given?) ? (return "Error, called without argument or block") : nil
+    
+    memo = (!args.empty? && (args[0].is_a? Integer)) ? args[0] : nil
+    operator = (!args.empty? && (args[-1].is_a? Symbol)) ? args[-1] : nil
+    
+    for item in self do
+      if !memo 
+        memo = item
+        next
+      end
+      if operator
+        memo = memo.method(operator)
+        memo = memo.call(item)
+      elsif block_given?
+        memo = yield memo, item
+      end
+    end
+    
+    return memo
+    
   end
   
   alias_method :my_collect, :my_map 
