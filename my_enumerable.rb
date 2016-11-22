@@ -55,7 +55,7 @@ module Enumerable
     operator = (!args.empty? && (args[-1].is_a? Symbol)) ? args[-1] : nil
     enum = self
 
-    if !memo
+    unless memo
       memo = enum.first
       enum = enum.drop(1).to_enum
     end
