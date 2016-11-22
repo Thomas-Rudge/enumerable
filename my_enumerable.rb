@@ -4,7 +4,7 @@ module Enumerable
 
     for item in self do
       result = block_given? ? (yield item) : !(item.nil? || item == false)
-      break if !result
+      break unless result
     end
 
     return result
