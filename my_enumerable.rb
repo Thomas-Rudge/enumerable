@@ -7,7 +7,7 @@ module Enumerable
       break unless result
     end
 
-    return result
+    result
   end
 
   def my_any?
@@ -18,7 +18,7 @@ module Enumerable
       break if result
     end
 
-    return result
+    result
   end
 
   def my_count(*args)
@@ -35,7 +35,7 @@ module Enumerable
       end
     end
 
-    return count
+    count
   end
 
   def my_each
@@ -69,8 +69,7 @@ module Enumerable
       end
     end
 
-    return memo
-
+    memo
   end
 
   # Unlike the standard map, this ones can also take a proc or lambda as an argument.
@@ -88,7 +87,7 @@ module Enumerable
       end
     end
 
-    return result
+    result
   end
 
   def my_none?
@@ -103,7 +102,7 @@ module Enumerable
       result << item if meets_condition
     end
 
-    return result
+    result
   end
 
   alias_method :my_collect, :my_map
